@@ -6,6 +6,11 @@ const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
+const userRoutes = require('./routes/user');
 const campgroundsRoutes = require('./routes/campgrounds');
 const reviewsRoutes = require('./routes/reviews');
 
@@ -34,11 +39,19 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+// Getting the methods to store the user in the session
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 });
+
 
 const db  = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'))
@@ -46,6 +59,7 @@ db.once('open', () => {
     console.log('database connected')
 });
 
+app.use('/', userRoutes);
 app.use('/campgrounds', campgroundsRoutes);
 app.use('/campgrounds/:id/reviews', reviewsRoutes);
 
