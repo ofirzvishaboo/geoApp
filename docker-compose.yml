@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+    stdin_open: true
+    tty: true
   mongo:
     image: mongo
     environment:
