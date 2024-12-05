@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelpers');
 const Campground = require('../models/campground');
+// const User = require('../models/user');
 
 mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`);
 
@@ -18,11 +19,19 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
     await Campground.deleteMany({});
+    // await User.deleteMany({});
+
+    // const user = new User({
+    //     email: process.env.ADMIN_MAIL,
+    //     username: process.env.ADMIN_USER
+    // });
+    // const registeredUser = await User.register(user, process.env.ADMIN_PASS);
+
     for (let i = 0; i < 50; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
-            author: '6750c26db59f5add7f1388e3',
+            author: '6750c26db59f5add7f1388e3', // registeredUser._id
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             image: ``,
