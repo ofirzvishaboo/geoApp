@@ -15,6 +15,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 10s
       retries: 5
+    entrypoint: /bin/sh -c "npm install dotenv node app.js "
     volumes:
       - .:/usr/src/app
     stdin_open: true
