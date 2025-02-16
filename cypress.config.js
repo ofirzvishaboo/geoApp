@@ -1,7 +1,7 @@
 const { defineConfig } = require("cypress");
 const dotenv = require('dotenv');
 dotenv.config();
-
+// 
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3000',
