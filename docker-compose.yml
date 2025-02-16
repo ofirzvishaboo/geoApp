@@ -38,4 +38,7 @@ services:
 volumes:
   mongodata:
     driver: local
+networks:
+  yelpcamp_network:
+    driver: bridge
 
