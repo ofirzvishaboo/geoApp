@@ -42,11 +42,6 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_PORT: 27017
 
-      - name: Wait for the app to be ready
-        run: |
-          sleep 10
-          curl -I http://localhost:3000 || exit 1
-
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
