@@ -6,7 +6,7 @@ require('dotenv').config();
       cy.get('input[name=username]').should('have.value', Cypress.env('ADMIN_USER'));
       cy.get('input[name=password]').type(Cypress.env('ADMIN_PASS'));
       cy.get('input[name=password]').should('have.value', Cypress.env('ADMIN_PASS'));
-      cy.get('button[name=loginutton]').click()
+      cy.get('button[name=loginButton]').click()
       cy.url().should('include', '/campgrounds');
       // Verify the welcome message
       cy.contains('welcome back!');
