@@ -39,7 +39,7 @@ services:
     networks:
       - yelpcamp_network
     environment:
-      - CYPRESS_baseUrl=http://yelpcamp-app-1:3000
+      - CYPRESS_baseUrl=http://yelpcamp-yelpcamp-app-1:3000
     working_dir: /app
     entrypoint: /bin/sh -c "npm install dotenv && cypress run"
     volumes:
