@@ -8,6 +8,24 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      # Use the service hostname 'mongodb' as defined above
+      MONGO_URI: mongodb://mongodb:27017/yelpCamp
+      ADMIN_USER: ${{ secrets.DB_USERNAME }}
+      ADMIN_PASS: ${{ secrets.DB_PASSWORD }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,6 +40,19 @@ jobs:
 
       - name: Start the server
         run: node app.js &
+
+      - name: Wait for the App to be Ready
+        run: |
+          echo "Waiting for the app to be ready..."
+          for i in {1..5}; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "App is up!"
+              exit 0
+            fi
+            echo "Still waiting..."
+            sleep 5
+          done
+          exit 1
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
