@@ -48,6 +48,9 @@ services:
 volumes:
   mongodata:
     driver: local
+  node_modules_volume:
+    # This named volume will preserve the node_modules installed in the Cypress image.
+    driver: local
 networks:
   yelpcamp_network:
     name: yelpcamp_network
