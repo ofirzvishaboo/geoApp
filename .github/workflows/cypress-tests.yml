@@ -25,6 +25,11 @@ jobs:
       - name: Build Docker Containers
         run: docker compose up -d --build
 
+      - name: Check if App is Running
+        run: |
+          echo "Checking app URL: http://localhost:3000"
+          curl -I http://localhost:3000 || exit 1
+
       - name: Wait for the app to be ready
         run: sleep 15  # Ensures the app is ready before running tests
 
