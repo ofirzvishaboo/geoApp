@@ -34,7 +34,6 @@ services:
     user: root
     depends_on:
       - app
-    network_mode: "service:app"  # Ensures Cypress can reach the app
     profiles:
       - testing
     environment:
