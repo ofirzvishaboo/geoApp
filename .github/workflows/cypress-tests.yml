@@ -29,6 +29,8 @@ jobs:
         run: |
           echo "ADMIN_USER=${{ secrets.ADMIN_USER }}" >> .env
           echo "ADMIN_PASS=${{ secrets.ADMIN_PASS }}" >> .env
+          echo "ADMIN_MAIL=${{ secrets.ADMIN_MAIL }}" >> .env
+
 
       - name: Install dependencies
         run: npm install
