@@ -1,7 +1,9 @@
 name: Integration Tests
 
 on:
-  workflow_dispatch:  # Runs only when manually triggered
+  push:
+    branches:
+      - main
 
 jobs:
   test:
