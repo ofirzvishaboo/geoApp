@@ -27,6 +27,8 @@ services:
     depends_on:
       - app
     network_mode: "service:app"  # Ensures Cypress can reach the app
+    profiles:
+      - testing
     environment:
       - CYPRESS_baseUrl=http://app:3000
     working_dir: /app

@@ -15,7 +15,7 @@ jobs:
         run: |
           export DOCKER_BUILDKIT=1
           docker version
-          
+
       - name: Create .env file from GitHub Secrets
         run: |
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
@@ -28,8 +28,8 @@ jobs:
       - name: Wait for the app to be ready
         run: sleep 15  # Ensures the app is ready before running tests
 
-      - name: Run Cypress Tests in Docker
-        run: docker compose run --rm cypress
+      - name: Run Cypress Tests
+        run: docker compose --profile testing run --rm cypress
 
       - name: Stop Containers
         run: docker compose down
