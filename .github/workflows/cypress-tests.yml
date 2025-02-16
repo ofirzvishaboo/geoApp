@@ -1,0 +1,56 @@
+name: Cypress Tests
+
+on:
+    workflow_dispatch:
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.DB_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start the application
+        run: npm start &
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: 27017
+
+      - name: Wait for the app to be ready
+        run: |
+          sleep 10
+          curl -I http://localhost:3000 || exit 1
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm start
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
+          browser: chrome
