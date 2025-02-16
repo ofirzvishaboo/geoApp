@@ -26,10 +26,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Start Services
-        run: docker-compose up -d --build
+        run: docker compose up -d --build
 
       - name: Run Cypress Tests
-        run: docker-compose run --rm cypress
+        run: docker compose run --rm cypress
 
       - name: Upload Cypress Artifacts
         if: failure()
