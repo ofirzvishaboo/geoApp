@@ -37,6 +37,7 @@ jobs:
       - name: Debug Docker Containers & Networks
         run: |
           docker ps -a
+          docker network ls
           docker network inspect yelpcamp_network
 
 
