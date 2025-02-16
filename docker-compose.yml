@@ -4,6 +4,8 @@ services:
     build: .
     ports:
       - "3000:3000"
+    networks:
+      - yelpcamp_network
     env_file:
       - .env
     depends_on:
@@ -25,6 +27,8 @@ services:
       - "${DB_PORT}:${DB_PORT}"
     volumes:
       - mongodata:/data/db
+    networks:
+      - yelpcamp_network
   cypress:
     image: "cypress/included:14.0.3"  # Cypress Docker Image
     user: root
