@@ -12,6 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Create .env file from GitHub Secrets
+        run: |
+          echo "ADMIN_USER=${{ secrets.ADMIN_USER }}" >> .env
+          echo "ADMIN_PASS=${{ secrets.ADMIN_PASS }}" >> .env
+
       - name: Install dependencies
         run: npm install
 
