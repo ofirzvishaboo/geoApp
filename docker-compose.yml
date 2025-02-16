@@ -39,12 +39,12 @@ services:
     networks:
       - yelpcamp_network
     environment:
-      - CYPRESS_baseUrl=http://yelpcamp-yelpcamp-app-1:3000
+      - CYPRESS_baseUrl=http://yelpcamp-app-1:3000
     working_dir: /e2e
-    entrypoint: /bin/sh -c "npm install dotenv && cypress run"
+    entrypoint: /bin/sh -c "npm install && cypress run"
     volumes:
       - .:/e2e
-      - ./cypress/screenshots:/app/cypress/screenshots
+      - ./cypress/screenshots:/e2e/cypress/screenshots
 volumes:
   mongodata:
     driver: local
