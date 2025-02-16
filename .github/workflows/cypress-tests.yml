@@ -57,3 +57,10 @@ jobs:
         with:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
+
+      - name: Upload Cypress Screenshots
+        if: failure()  # Only upload if tests fail
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
