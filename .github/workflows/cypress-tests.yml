@@ -1,51 +1,44 @@
-name: Cypress Tests
+name: Cypress Tests (Manual Trigger)
 
 on:
-    workflow_dispatch:
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
+  workflow_dispatch:  # Runs only when manually triggered
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      mongo:
-        image: mongo
-        env:
-          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.DB_USERNAME }}
-          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        ports:
-          - 27017:27017
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Docker BuildKit
+        run: |
+          export DOCKER_BUILDKIT=1
+          docker version
+          
+      - name: Create .env file from GitHub Secrets
+        run: |
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+
+      - name: Build Docker Containers
+        run: docker compose up -d --build
+
+      - name: Wait for the app to be ready
+        run: sleep 15  # Ensures the app is ready before running tests
+
+      - name: Run Cypress Tests in Docker
+        run: docker compose run --rm cypress
+
+      - name: Stop Containers
+        run: docker compose down
+
+      - name: Upload Cypress Screenshots and Videos
+        if: failure()
+        uses: actions/upload-artifact@v4
         with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Start the application
-        run: npm start &
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_PORT: 27017
-
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm start
-          wait-on: "http://localhost:3000"
-          wait-on-timeout: 120
-          browser: chrome
+          name: cypress-results
+          path: |
+            cypress/screenshots
+            cypress/videos
