@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelpers');
 const Campground = require('../models/campground');
-// const User = require('../models/user');
+const User = require('../models/user');
 
 mongoose.connect('mongodb://localhost:27017/yelpCamp');
 // `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
