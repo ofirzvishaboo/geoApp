@@ -47,5 +47,6 @@ volumes:
     driver: local
 networks:
   yelpcamp_network:
+    name: yelpcamp_network
     driver: bridge
 
