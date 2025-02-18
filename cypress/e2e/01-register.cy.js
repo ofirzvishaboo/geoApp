@@ -1,19 +1,22 @@
 require('dotenv').config();
-  describe('template spec', () => {
-    it('checking register', () => {
-      cy.visit('/register');
-      cy.get('input[name=username]').type('yakov');
-      // cy.get('input[name=username]').should('have.value', Cypress.env('DB_USERNAME'));
-      cy.get('input[name=email]').type('wow@examle.com');
-      cy.get('input[name=email]').should('have.value', 'wow@examle.com');
-      cy.get('input[name=password]').type(Cypress.env('DB_PASSWORD'));
-      cy.get('input[name=password]').should('have.value', Cypress.env('DB_PASSWORD'));
-      cy.get('button[name=registerButton]').click()
-      cy.url().should('include', '/campgrounds');
-      // Verify the welcome message
-      cy.contains('Welcome to Yelp Camp');
-      cy.get('a[href="/logout"]').click()
-      // cy.visit('/logout');
-      cy.contains('Goodbye!');
-    })
-  })
+// cypress/e2e/login.spec.js
+const RegisterPage = require('../page-objects/registerPage');
+
+describe('Login Test', () => {
+  const registerPage = new RegisterPage();
+
+  it('should log in successfully', () => {
+    // Replace these with valid credentials or use environment variables
+    const username = 'yakov';
+    const email = 'wow@examle.com';
+    const password = Cypress.env('ADMIN_PASS');
+
+    registerPage.login(username, email, password);
+    registerPage.verifyRegister()
+
+    registerPage.logout()
+
+    // Add assertions as needed, for example:
+    cy.url().should('include', '/campgrounds');
+  });
+});
