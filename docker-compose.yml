@@ -21,7 +21,7 @@ services:
     stdin_open: true
     tty: true
   mongo:
-    image: mongo
+    image: arm64v8/mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
@@ -38,6 +38,8 @@ services:
       - app
     networks:
       - yelpcamp_network
+    profiles:
+      - testing
     environment:
       - CYPRESS_baseUrl=http://yelpcamp-app-1:3000
     working_dir: /e2e

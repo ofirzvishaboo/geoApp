@@ -1,0 +1,70 @@
+name: Run Cypress Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cypress-docker:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    env:
+      # Use the service hostname 'mongodb' as defined above
+      MONGO_URI: mongodb://mongodb:27017/yelpCamp
+      ADMIN_USER: ${{ secrets.DB_USERNAME }}
+      ADMIN_PASS: ${{ secrets.DB_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create .env file from GitHub Secrets
+        run: |
+          echo "ADMIN_USER=${{ secrets.ADMIN_USER }}" >> .env
+          echo "ADMIN_PASS=${{ secrets.ADMIN_PASS }}" >> .env
+          echo "ADMIN_MAIL=${{ secrets.ADMIN_MAIL }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
+
+      - name: Install dependencies
+        run: docker compose up -d --build
+
+      - name: push mock data
+        run: docker exec -it node seeds/index.js
+
+      - name: Start the server
+        run: node app.js &
+
+      - name: Wait for the App to be Ready
+        run: |
+          echo "Waiting for the app to be ready..."
+          for i in {1..5}; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "App is up!"
+              exit 0
+            fi
+            echo "Still waiting..."
+            sleep 5
+          done
+          exit 1
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
+
+      - name: Upload Cypress Screenshots
+        if: failure()  # Only upload if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "node seeds/index.js",
     "start": "node app.js",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
