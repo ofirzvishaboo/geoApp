@@ -1,6 +1,6 @@
 require('dotenv').config();
 // cypress/e2e/login.spec.js
-import LoginPage from '../page-objects/loginPage';
+const LoginPage = require('../page-objects/loginPage');
 
 describe('Login Test', () => {
   const loginPage = new LoginPage();
