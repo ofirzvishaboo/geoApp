@@ -41,6 +41,8 @@ docker compose --profile testing run --rm cypress
 ### Environment Variables
 
 Create a .env file in your project root (or configure your environment accordingly). An example .env file might look like this:
+
+```env
 DB_USERNAME=<username>
 DB_PASSWORD=<password>
 DB_HOST=mongo
