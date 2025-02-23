@@ -57,3 +57,4 @@ CLOUDINARY_CLOUD_NAME=<username>
 CLOUDINARY_KEY=<key>
 CLOUDINARY_SECRET=<secret>
 MAPTILER_TOKEN=<api-token>
+```
