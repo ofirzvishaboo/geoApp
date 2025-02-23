@@ -33,13 +33,13 @@ The project is containerized with Docker Compose to simplify development, testin
 To build and start all services in detached mode, run:
 ```run
 docker compose up -d --build
-
+```
 ### Running Tests
 
 To run Cypress tests using a dedicated testing profile, ensure your application is running and execute:
 ```run-tests
 docker compose --profile testing run --rm cypress
-
+```
 ### Environment Variables
 
 Create a .env file in your project root (or configure your environment accordingly). An example .env file might look like this:
