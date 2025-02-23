@@ -2,7 +2,7 @@ require('dotenv').config();
 // cypress/e2e/login.spec.js
 const RegisterPage = require('../page-objects/registerPage');
 
-describe('Login Test', () => {
+describe('Register Test', () => {
   const registerPage = new RegisterPage();
 
   it('should log in successfully', () => {
