@@ -40,6 +40,12 @@ To run Cypress tests using a dedicated testing profile, ensure your application 
 ```run-tests
 docker compose --profile testing run --rm cypress
 ```
+
+### Stopping the Project
+```stop
+docker compose down
+```
+
 ### Environment Variables
 
 Create a .env file in your project root (or configure your environment accordingly). An example .env file might look like this:
