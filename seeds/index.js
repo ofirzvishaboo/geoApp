@@ -5,8 +5,8 @@ const { places, descriptors } = require('./seedHelpers');
 const Campground = require('../models/campground');
 const User = require('../models/user');
 
-mongoose.connect('mongodb://localhost:27017/yelpCamp');
-// `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`
+mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`);
+// 'mongodb://localhost:27017/yelpCamp' for local use or github actions
 const db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "connection error:"));

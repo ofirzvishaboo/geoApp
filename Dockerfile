@@ -1,11 +1,16 @@
 # Use the official Node.js image as the base image
-FROM node:20-alpine
+FROM node:18-bullseye-slim
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+ENV PYTHON=/usr/bin/python3
+
+# Update apt-get and install required build tools, then install dependencies
+RUN apt-get update && \
+    apt-get install -y python3 python3-dev build-essential && \
+    npm install
 
 COPY . .
 
@@ -13,7 +18,7 @@ COPY . .
 EXPOSE 3000
 
 # Set environment variables
-ENV NODE_ENV=production
+# ENV NODE_ENV=production
 
 # Start the application
-CMD ["node", "app.js"]
+CMD ["npm", "start"]
