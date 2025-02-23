@@ -31,11 +31,13 @@ The project is containerized with Docker Compose to simplify development, testin
 ### Running the Project
 
 To build and start all services in detached mode, run:
+```run
 docker compose up -d --build
 
 ### Running Tests
 
 To run Cypress tests using a dedicated testing profile, ensure your application is running and execute:
+```run-tests
 docker compose --profile testing run --rm cypress
 
 ### Environment Variables
