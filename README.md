@@ -1,11 +1,11 @@
-# YelpCamp
+# geoApp
 
-YelpCamp is a fullstack web application built with MongoDB, Express, Node.js, and EJS. It includes Cypress-based automated testing and uses Docker Compose for container orchestration.
+geoApp is a fullstack web application built with MongoDB, Express, Node.js, and EJS. It includes Cypress-based automated testing and uses Docker Compose for container orchestration.
 This project demonstrates a modern approach to fullstack development, testing, and deployment.
 
 ## Overview
 
-YelpCamp is a campground review and listing site where users can view, add, and review campgrounds. The application is built using:
+geoApp is a campground review and listing site where users can view, add, and review campgrounds. The application is built using:
 - **MongoDB** for data persistence
 - **Express & Node.js** for the server-side
 - **EJS** for templating
